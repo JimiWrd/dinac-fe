@@ -17,7 +17,8 @@
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-    <div id="responseContainer"></div>
+    <div id="description"></div>
+    <div id="isCoatNeeded"></div>
 
     <script>
         function submitForm() {
@@ -26,7 +27,9 @@
             $.get("processForm.php", {
                 location: locationValue
             }, function(response) {
-                $('#responseContainer').html(response);
+                var responseJson = JSON.parse(response);
+                $('#description').html(JSON.stringify(responseJson.description, null, 2));
+                $('#isCoatNeeded').html(JSON.stringify(responseJson.isCoatNeeded, null, 2));
             });
         }
     </script>

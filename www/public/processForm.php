@@ -1,4 +1,8 @@
+
+
 <?php
+    use public\model\dinacResponseModel;
+
     if($_SERVER['REQUEST_METHOD'] === 'GET') {
         $location = isset($_GET['location']) ? $_GET['location'] : '';
 
@@ -12,7 +16,16 @@
 
         try {
             $response = curl_exec($curl);
+            
+            $response = json_decode($response, true);
+
+            require_once __DIR__ .'/model/dinacResponseModel.php';
+            $response = new dinacResponseModel($response);
+
+            $response = json_encode($response);
+
             echo $response;
+
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         } finally {
