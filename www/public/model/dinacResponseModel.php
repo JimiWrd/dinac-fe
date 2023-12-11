@@ -1,5 +1,4 @@
 <?php
-namespace public\model;
 
 class dinacResponseModel implements \JsonSerializable
 {
