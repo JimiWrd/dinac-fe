@@ -1,6 +1,5 @@
 <?php
 
-use public\model\dinacResponseModel;
 require __DIR__ . '/model/dinacResponseModel.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' & $_GET['location'] != '') {
