@@ -1,6 +1,7 @@
 <?php
 
 use public\model\dinacResponseModel;
+require __DIR__ . '/model/dinacResponseModel.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' & $_GET['location'] != '') {
     $location = $_GET['location'];
@@ -18,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' & $_GET['location'] != '') {
 
         $response = json_decode($response, true);
 
-        require_once __DIR__ . '/model/dinacResponseModel.php';
         $response = new dinacResponseModel($response);
 
         $response = json_encode($response);
@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' & $_GET['location'] != '') {
     }
 }
 else {
-    require_once __DIR__ . '/model/dinacResponseModel.php';
     $response = [
         'isCoatNeeded' => null,
         'description' => 'Please provide a location.'
