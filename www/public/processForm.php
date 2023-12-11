@@ -1,22 +1,43 @@
 <?php
-    if($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $location = isset($_GET['location']) ? $_GET['location'] : '';
 
-        $apiUrl = "http://localhost:8080/api/dinac";
+use public\model\dinacResponseModel;
 
-        $apiUrl .= "?location=" . urlencode($location);
+if ($_SERVER['REQUEST_METHOD'] === 'GET' & $_GET['location'] != '') {
+    $location = $_GET['location'];
 
-        $curl = curl_init($apiUrl);
+    $apiUrl = "http://localhost:8080/api/dinac";
 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $apiUrl .= "?location=" . urlencode($location);
 
-        try {
-            $response = curl_exec($curl);
-            echo $response;
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        } finally {
-            curl_close($curl);
-        }
+    $curl = curl_init($apiUrl);
+
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    try {
+        $response = curl_exec($curl);
+
+        $response = json_decode($response, true);
+
+        require_once __DIR__ . '/model/dinacResponseModel.php';
+        $response = new dinacResponseModel($response);
+
+        $response = json_encode($response);
+
+        echo $response;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        echo json_encode('Error');
+    } finally {
+        curl_close($curl);
     }
+}
+else {
+    require_once __DIR__ . '/model/dinacResponseModel.php';
+    $response = [
+        'isCoatNeeded' => null,
+        'description' => 'Please provide a location.'
+    ];
+    $response = new dinacResponseModel($response);
+    echo json_encode($response);
+}
 ?>
