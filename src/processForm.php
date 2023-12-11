@@ -1,11 +1,15 @@
 <?php
-
+require_once __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/model/dinacResponseModel.php';
+use Dotenv\Dotenv;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' & $_GET['location'] != '') {
+    $dotenv = Dotenv::createImmutable(__DIR__.'/..');
+    $dotenv->load();
+
     $location = $_GET['location'];
 
-    $apiUrl = "http://localhost:8080/api/dinac";
+    $apiUrl = $_ENV['DINAC_URL'];
 
     $apiUrl .= "?location=" . urlencode($location);
 
